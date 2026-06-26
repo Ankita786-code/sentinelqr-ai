@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SentinelQR AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🛡️ SentinelQR AI</h1>
+
+    <h3>AI Powered QR Threat Detection System</h3>
+
+    <p>
+        Upload a QR Code image to detect phishing,
+        malicious websites, and suspicious URLs.
+    </p>
+
+    <form
+        action="/scan"
+        method="POST"
+        enctype="multipart/form-data"
+    >
+
+        <input
+            type="file"
+            name="qr_image"
+            accept=".png,.jpg,.jpeg"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">
+
+            🔍 Scan QR Code
+
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/dashboard">
+
+        📊 View Dashboard
+
+    </a>
+
+</div>
+
+</body>
+
+</html>

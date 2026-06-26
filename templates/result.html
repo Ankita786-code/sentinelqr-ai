@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Threat Analysis Result</title>
+
+<link
+rel="stylesheet"
+href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🛡️ Threat Analysis Result</h1>
+
+<hr>
+
+<div class="result-box">
+
+<p>
+<b>🔗 Scanned URL:</b><br>
+{{ url }}
+</p>
+
+<p>
+<b>🌐 Domain:</b>
+{{ domain }}
+</p>
+
+<p>
+<b>📌 Status:</b>
+
+{% if status=="Safe" %}
+<span class="safe">{{status}}</span>
+
+{% elif status=="Suspicious" %}
+<span class="warning">{{status}}</span>
+
+{% else %}
+<span class="danger">{{status}}</span>
+
+{% endif %}
+
+</p>
+
+<p>
+<b>⚠ Severity:</b>
+{{ severity }}
+</p>
+
+<p>
+<b>📈 Risk Score:</b>
+
+{{ risk_score }}/100
+
+</p>
+
+<p>
+<b>🤖 AI Confidence:</b>
+
+{{ confidence }}%
+
+</p>
+
+</div>
+
+<br>
+
+<h2>Reasons</h2>
+
+{% if reasons %}
+
+<ul>
+
+{% for r in reasons %}
+
+<li>{{ r }}</li>
+
+{% endfor %}
+
+</ul>
+
+{% else %}
+
+<p>No suspicious indicators found.</p>
+
+{% endif %}
+
+<br>
+
+<h2>Recommendation</h2>
+
+<div class="recommend">
+
+{{ recommendation }}
+
+</div>
+
+<hr>
+
+<h2>📊 Analytics Dashboard</h2>
+
+<p>
+
+Total Scans:
+<b>{{ total }}</b>
+
+</p>
+
+<p>
+
+Unique Users:
+<b>{{ users }}</b>
+
+</p>
+
+<br>
+
+<h3>🔥 Top Scanned URLs</h3>
+
+{% if top %}
+
+<ul>
+
+{% for q in top %}
+
+<li>
+
+{{ q[0] }}
+
+—
+
+{{ q[1] }} scans
+
+</li>
+
+{% endfor %}
+
+</ul>
+
+{% else %}
+
+<p>No scan history available.</p>
+
+{% endif %}
+
+<br>
+
+<a href="/" class="btn">
+
+⬅ Scan Another QR
+
+</a>
+
+|
+
+<a href="/dashboard" class="btn">
+
+📊 Dashboard
+
+</a>
+
+</div>
+
+</body>
+
+</html>

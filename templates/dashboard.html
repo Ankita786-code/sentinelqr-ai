@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SentinelQR Analytics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📊 Analytics Dashboard</h1>
+
+    <!-- Summary Cards -->
+    <div class="card-box">
+
+        <div class="card">
+            <h2>{{ total }}</h2>
+            <p>Total Scans</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ users }}</h2>
+            <p>Unique Users</p>
+        </div>
+
+    </div>
+
+    <!-- Top URLs -->
+    <h2>🔥 Top Scanned QR URLs</h2>
+
+    {% if top and top|length > 0 %}
+
+        <ul class="list">
+
+            {% for q in top %}
+
+                <li>
+                    <span class="url-text">{{ q[0] }}</span>
+                    <span class="count">({{ q[1] }} scans)</span>
+                </li>
+
+            {% endfor %}
+
+        </ul>
+
+    {% else %}
+
+        <p>No scan data available yet.</p>
+
+    {% endif %}
+
+    <br>
+
+    <a href="/" class="btn">⬅ Back to Scanner</a>
+
+</div>
+
+</body>
+
+</html>
