@@ -204,16 +204,17 @@ def scan():
         )
 
         # ------------------
-
-  # ------------------
-
-        file.save(path)
-
+             # ------------------
+        # Decode QR
         # ------------------
 
         qr = decode_qr(path)
+        print("QR DATA =", qr)
 
+        # QR not detected
         if not qr:
+            total, users, top = get_stats()
+
             return render_template(
                 "result.html",
                 url="-",
@@ -224,39 +225,35 @@ def scan():
                 confidence=0,
                 recommendation="Please upload a QR code containing a website URL.",
                 reasons=["QR code not detected or unreadable."],
-                total=0,
-                users=0,
-                top=[]
+                total=total,
+                users=users,
+                top=top
             )
 
         url = qr.strip()
+        print("URL =", url)
 
-        if not (
-            url.startswith("http://")
-            or
-            url.startswith("https://")
-        ):
+        # Reject non-website QR codes
+        if not url.startswith(("http://", "https://")):
+            total, users, top = get_stats()
+
             return render_template(
                 "result.html",
-                url="Not a Website URL",
-                domain="N/A",
+                url="-",
+                domain="-",
                 status="Invalid QR",
                 severity="-",
                 risk_score=0,
                 confidence=0,
-                recommendation="Please upload a QR code containing a valid website URL.",
-                reasons=["This QR code contains plain text instead of a website URL."],
-                total=0,
-                users=0,
-                top=[]
+                recommendation="This QR code does not contain a website URL.",
+                reasons=["The QR code contains plain text instead of a website link."],
+                total=total,
+                users=users,
+                top=top
             )
 
         domain = get_domain(url)
-
-        # ------------------
-
-        risk_score, reasons = analyze_url(url)
-# ------------------
+    
 
         # ------------------
 
@@ -317,14 +314,12 @@ def scan():
 
         ip = request.remote_addr
 
+        print("Saving scan:", ip, url, risk_score)
+
         save_scan(
-
             ip,
-
             url,
-
             risk_score
-
         )
 
         total, users, top = (
@@ -399,7 +394,6 @@ def dashboard():
 # ----------------------------------
 # RUN
 # ----------------------------------
-
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
