@@ -205,21 +205,56 @@ def scan():
 
         # ------------------
 
-        qr = decode_qr(
-            path
-        )
+  # ------------------
 
-        if not qr:
+qr = decode_qr(path)
 
-            return (
-                "QR Not Detected"
-            )
+if not qr:
+    return render_template(
+        "result.html",
+        url="-",
+        domain="-",
+        status="Invalid QR",
+        severity="-",
+        risk_score=0,
+        confidence=0,
+        recommendation="Please upload a QR code containing a website URL.",
+        reasons=[
+            "QR code not detected or unreadable."
+        ],
+        total=0,
+        users=0,
+        top=[]
+    )
 
-        url = qr
+url = qr.strip()
 
-        domain = get_domain(
-            url
-        )
+# Accept only website URLs
+if not (
+    url.startswith("http://")
+    or
+    url.startswith("https://")
+):
+    return render_template(
+        "result.html",
+        url="Not a Website URL",
+        domain="N/A",
+        status="Invalid QR",
+        severity="-",
+        risk_score=0,
+        confidence=0,
+        recommendation="Please upload a QR code containing a valid website link.",
+        reasons=[
+            "This QR code contains plain text instead of a website URL."
+        ],
+        total=0,
+        users=0,
+        top=[]
+    )
+
+domain = get_domain(url)
+
+# ------------------
 
         # ------------------
 
