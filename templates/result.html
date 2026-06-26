@@ -1,174 +1,114 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <title>SentinelQR AI - Threat Analysis</title>
 
-<meta charset="UTF-8">
-
-<title>Threat Analysis Result</title>
-
-<link
-rel="stylesheet"
-href="{{ url_for('static', filename='style.css') }}">
-
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>🛡️ Threat Analysis Result</h1>
+    <div style="text-align:center;margin-bottom:25px;">
+        <h1>🛡️ SentinelQR AI</h1>
+        <p style="font-size:18px;color:#1f6feb;font-weight:bold;">
+            Developed & Designed by <strong>@nkita</strong>
+        </p>
+        <hr>
+    </div>
 
-<hr>
+    <h2>🛡️ Threat Analysis Result</h2>
 
-<div class="result-box">
+    <div class="result-box">
 
-<p>
-<b>🔗 Scanned URL:</b><br>
-{{ url }}
-</p>
+        <p><b>🔗 Scanned URL</b><br>{{ url }}</p>
 
-<p>
-<b>🌐 Domain:</b>
-{{ domain }}
-</p>
+        <p><b>🌐 Domain:</b> {{ domain }}</p>
 
-<p>
-<b>📌 Status:</b>
+        <p>
+            <b>📌 Status:</b>
 
-{% if status=="Safe" %}
-<span class="safe">{{status}}</span>
+            {% if status=="Safe" %}
+                <span class="safe">{{ status }}</span>
+            {% elif status=="Suspicious" %}
+                <span class="warning">{{ status }}</span>
+            {% else %}
+                <span class="danger">{{ status }}</span>
+            {% endif %}
 
-{% elif status=="Suspicious" %}
-<span class="warning">{{status}}</span>
+        </p>
 
-{% else %}
-<span class="danger">{{status}}</span>
+        <p><b>⚠ Severity:</b> {{ severity }}</p>
 
-{% endif %}
+        <p><b>📈 Risk Score:</b> {{ risk_score }}/100</p>
 
-</p>
+        <p><b>🤖 AI Confidence:</b> {{ confidence }}%</p>
 
-<p>
-<b>⚠ Severity:</b>
-{{ severity }}
-</p>
+    </div>
 
-<p>
-<b>📈 Risk Score:</b>
+    <br>
 
-{{ risk_score }}/100
+    <h2>Reasons</h2>
 
-</p>
+    {% if reasons %}
+    <ul>
+        {% for r in reasons %}
+        <li>{{ r }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No suspicious indicators found.</p>
+    {% endif %}
 
-<p>
-<b>🤖 AI Confidence:</b>
+    <br>
 
-{{ confidence }}%
+    <h2>Recommendation</h2>
 
-</p>
+    <div class="recommend">
+        {{ recommendation }}
+    </div>
 
-</div>
+    <hr>
 
-<br>
+    <h2>📊 Analytics Dashboard</h2>
 
-<h2>Reasons</h2>
+    <p><b>Total Scans:</b> {{ total }}</p>
 
-{% if reasons %}
+    <p><b>Unique Users:</b> {{ users }}</p>
 
-<ul>
+    <br>
 
-{% for r in reasons %}
+    <h3>🔥 Top Scanned URLs</h3>
 
-<li>{{ r }}</li>
+    {% if top %}
+    <ul>
+        {% for q in top %}
+        <li>{{ q[0] }} — {{ q[1] }} scans</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No scan history available.</p>
+    {% endif %}
 
-{% endfor %}
+    <br>
 
-</ul>
+    <a href="/" class="btn">⬅ Scan Another QR</a>
 
-{% else %}
+    &nbsp; | &nbsp;
 
-<p>No suspicious indicators found.</p>
+    <a href="/dashboard" class="btn">📊 Dashboard</a>
 
-{% endif %}
+    <hr>
 
-<br>
-
-<h2>Recommendation</h2>
-
-<div class="recommend">
-
-{{ recommendation }}
-
-</div>
-
-<hr>
-
-<h2>📊 Analytics Dashboard</h2>
-
-<p>
-
-Total Scans:
-<b>{{ total }}</b>
-
-</p>
-
-<p>
-
-Unique Users:
-<b>{{ users }}</b>
-
-</p>
-
-<br>
-
-<h3>🔥 Top Scanned URLs</h3>
-
-{% if top %}
-
-<ul>
-
-{% for q in top %}
-
-<li>
-
-{{ q[0] }}
-
-—
-
-{{ q[1] }} scans
-
-</li>
-
-{% endfor %}
-
-</ul>
-
-{% else %}
-
-<p>No scan history available.</p>
-
-{% endif %}
-
-<br>
-
-<a href="/" class="btn">
-
-⬅ Scan Another QR
-
-</a>
-
-|
-
-<a href="/dashboard" class="btn">
-
-📊 Dashboard
-
-</a>
+    <div style="text-align:center;color:gray;margin-top:20px;">
+        © 2026 SentinelQR AI • Developed & Designed by <b>@nkita</b>
+    </div>
 
 </div>
 
 </body>
-
 </html>
